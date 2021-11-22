@@ -105,12 +105,16 @@ source $ZSH/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias ls="colorls -la"
+alias ls="exa -la"
 alias ..="cd ../"
 alias ...="cd ../../"
 alias ....="cd ../../../"
 alias .....="cd ../../../../"
 alias code="codium"
+alias sps="sudo pacman -S"
+alias spsy="sudo pacman -Sy"
+alias ys="yay -S"
+alias ysy="yay -Sy"
 
 if [[ -o interactive ]]; then
     neofetch --ascii_colors 4 15
