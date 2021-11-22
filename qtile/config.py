@@ -85,19 +85,22 @@ keys = [
     Key([mod], "d", lazy.spawn("rofi -show drun"), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(),
         desc="Spawn a command using a prompt widget"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn(
+        "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+    )),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn(
+        "pactl set-sink-volume @DEFAULT_SINK@ +5%"
+    )),
+    Key([], "XF86AudioMute", lazy.spawn(
+        "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    )),
+    Key([], "XF86MonBrightnessUp", lazy.spawn(
+        "brightnessctl s +50"
+    )),
+    Key([], "XF86MonBrightnessDown", lazy.spawn(
+        "brightnessctl s 50-"
+    )),
 ]
-
-### VOLUME ###
-
-Key([], "XF86AudioLowerVolume", lazy.spawn(
-    "pactl set-sink-volume @DEFAULT_SINK@ -5%"
-)),
-Key([], "XF86AudioRaiseVolume", lazy.spawn(
-    "pactl set-sink-volume @DEFAULT_SINK@ +5%"
-)),
-Key([], "XF86AudioMute", lazy.spawn(
-    "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-)),
 
 groups = [Group(i) for i in "123456789"]
 
@@ -117,6 +120,11 @@ for i in groups:
     ])
 
 layouts = [
+    layout.Columns(
+        border_focus = '#c83583',
+        border_width=3,
+        margin = 5
+    ),
     layout.MonadTall(
         border_focus = '#c83583',
         border_focus_stack=['#d75f5f', '#8f3d3d'],
@@ -125,17 +133,6 @@ layouts = [
         ratio=0.66
     ),
     layout.Max(
-        border_focus = '#c83583',
-        border_focus_stack=['#d75f5f', '#8f3d3d'],
-        border_width=3,
-        margin = 5
-    ),
-    layout.RatioTile(
-        border_focus = '#c83583',
-        border_width=3,
-        margin = 5
-    ),
-    layout.Zoomy(
         border_focus = '#c83583',
         border_focus_stack=['#d75f5f', '#8f3d3d'],
         border_width=3,
@@ -215,7 +212,7 @@ screens = [
                        foreground = colors[2],
                        background = colors[0]
                        ),
-              widget.WindowName(
+                widget.WindowName(
                        foreground = colors[6],
                        background = colors[0],
                        padding = 0
@@ -272,17 +269,16 @@ screens = [
                        padding = 0,
                        fontsize = 30
                        ), 
-                widget.TextBox(
-                       text = " 🖬",
+                widget.CurrentLayoutIcon(
+                       custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
                        foreground = colors[2],
                        background = colors[5],
                        padding = 0,
-                       fontsize = 14
+                       scale = 0.7
                        ),
-              widget.Memory(
+                widget.CurrentLayout(
                        foreground = colors[2],
                        background = colors[5],
-                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
                        padding = 5
                        ),
                 widget.TextBox(
@@ -291,18 +287,11 @@ screens = [
                        background = colors[5],
                        padding = 0,
                        fontsize = 30
-                       ),  
-                widget.CurrentLayoutIcon(
-                       custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-                       foreground = colors[0],
-                       background = colors[4],
-                       padding = 0,
-                       scale = 0.7
                        ),
-                widget.CurrentLayout(
+                widget.Clock(
                        foreground = colors[2],
                        background = colors[4],
-                       padding = 5
+                       format = "%A, %B %d - %I:%M "
                        ),
                 widget.TextBox(
                        text = '🭨',
@@ -310,15 +299,46 @@ screens = [
                        background = colors[4],
                        padding = 0,
                        fontsize = 30
-                       ), 
-                widget.Clock(
+                       ),
+                widget.TextBox(
+                       text = "🕩 ",
+                       paddinhg = 0,
                        foreground = colors[2],
                        background = colors[5],
-                       format = "%A, %B %d - %I:%M "
+                       fontsize = 14
                        ),
                 widget.PulseVolume(
-
-                )
+                    foreground = colors[2],
+                    background = colors[5],
+                ),
+                widget.TextBox(
+                       text = " 🌣 ",
+                       paddinhg = 0,
+                       foreground = colors[2],
+                       background = colors[5],
+                       fontsize = 18
+                       ),
+                widget.Backlight(
+                    foreground = colors[2],
+                    background = colors[5],
+                    backlight_name= 'intel_backlight'
+                ),
+                widget.TextBox(
+                       text = '🭨',
+                       foreground = colors[4],
+                       background = colors[5],
+                       padding = 0,
+                       fontsize = 30
+                       ),
+                widget.Battery(
+                       foreground = colors[2],
+                       background = colors[4],
+                       charge_char = '🗲 ⇑',
+                       discharge_char = '🗲 ⇓',
+                       unknown_char = '🗲 ?',
+                       show_short_text = 'False',
+                       format = '{char} {percent:2.0%} {hour:d}:{min:02d}   ',
+                       ),
             ],
             24,
         ),
