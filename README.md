@@ -7,4 +7,5 @@
   - [Qtile](https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/qtile/config.py)
   - [Rofi](https://github.com/dracula/rofi)
   - [Starship](https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-starship-prompt/-/blob/master/starship.toml)
+  - [Startpage](https://github.com/Axarva/dotfiles-2.0/tree/main/startpage)
 
